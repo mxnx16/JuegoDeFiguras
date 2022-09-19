@@ -81,24 +81,18 @@ namespace JuegoDeFiguras
                     }
                 }
                 // ELIMINAR FIGURAS ATRAPADAS
-                foreach (Figura figuraAEliminar in figurasAEliminar)
-                {
-                    this.Figuras.Remove(figuraAEliminar);
-                }
+                EliminarFiguras(figurasAEliminar);
                 #endregion
 
                 // ELIMINAR FIGURAS QUE DESAPARECEN POR DEBAJO
-                figurasAEliminar = new List<Figura>();
+                figurasAEliminar.Clear();
                 foreach (Figura figura in this.Figuras)
                 {
                     figura.Y += valorDeMovimientoEnY;
                     if (figura.Y > this.AltoDibujo)
                         figurasAEliminar.Add(figura);
                 }
-                foreach(Figura figuraAEliminar in figurasAEliminar)
-                {
-                    this.Figuras.Remove(figuraAEliminar);
-                }
+                EliminarFiguras(figurasAEliminar);
                 
             }
             catch (Exception ex)
@@ -111,6 +105,15 @@ namespace JuegoDeFiguras
 
             }
         }
+
+        public void EliminarFiguras(List<Figura> figurasAEliminar){
+            foreach (Figura figurElim in figurasAEliminar)
+                {
+                    this.Figuras.Remove(figurElim);
+                }
+        }
+
+
         public Bitmap Dibujar()
         {
             Bitmap imagen = new Bitmap(this.AnchoDibujo, this.AltoDibujo);
@@ -183,7 +186,6 @@ namespace JuegoDeFiguras
         {
             return keysPressed.Contains(key);
         }
-
         #endregion
 
     }

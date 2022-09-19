@@ -107,8 +107,21 @@ namespace JuegoDeFiguras
         }
         private void DefineAnchoAlto(FormaTypes forma, out double ancho, out double alto)
         {
-            ancho = 0; alto = 0;
-            switch (forma)
+            double aux = 0;
+            ancho = randomAncho_Figuras.Next(10, 50);
+            alto = randomAlto_Figuras.Next((int)ancho + 1, 100);
+            if (forma == FormaTypes.Cuadrado)
+            {
+                alto = ancho;
+            }
+            else if (forma == FormaTypes.RectanguloHorizontal)
+            {
+                aux = alto;
+                alto = ancho;
+                ancho = aux;
+            }
+
+            /* switch (forma)
             {
                 case FormaTypes.Cuadrado:
                     ancho = randomAncho_Figuras.Next(10, 50);
@@ -124,17 +137,13 @@ namespace JuegoDeFiguras
                     break;
                 default:
                     break;
-            }
+            } */
         }
         private Color SeleccionarColor()
         {
             int valor = randomColorRGB.Next(0, 255);
 
-            int R = randomColorRGB.Next(0, 255);
-            int G = randomColorRGB.Next(0, 255);
-            int B = randomColorRGB.Next(0, 255);
-
-            return Color.FromArgb(R, G, B);
+            return Color.FromArgb(randomColorRGB.Next(0, 255), randomColorRGB.Next(0, 255), randomColorRGB.Next(0, 255));
 
             /*
             //int valor = new Random().Next(0, 11);
@@ -238,26 +247,6 @@ namespace JuegoDeFiguras
             task.Start();
             int valReturn = await task;
             return valReturn;
-
-        }
-        public async Task<int> RecolectarObjetos()
-        {
-            var task = new Task<int>(() => {
-                while (true)
-                {
-                    if (this.ContenedorFiguras.Count > 0)
-                    {
-                        Figura figura = this.ContenedorFiguras.Dequeue();
-                        this.Juego.Figuras.Add(figura);
-                    }
-                    Thread.Sleep(650);
-                }
-                return 0;
-            });
-            task.Start();
-            int valReturn = await task;
-            return valReturn;
-
         }
         #endregion
     }
